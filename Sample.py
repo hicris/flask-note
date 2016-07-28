@@ -1,6 +1,13 @@
 from flask import Flask, render_template
+from werkzeug.routing import BaseConverter
+
+class RegexConverter(BaseConverter):
+    def __init__(self,url_map,*items):
+        super(RegexConverter,self).__init__(url_map)
+        self.regex = items[0]
 
 app = Flask(__name__)
+app.url_map.converters['regex'] = RegexConverter
 
 @app.route('/')
 def hello_world():
@@ -14,7 +21,7 @@ def services():
 def about():
     return 'About'
 
-@app.route('/user/<int:user_id>')
+@app.route('/user/<regex("[a-z]{4}"):user_id>')
 def user(user_id):
     return 'User %s' % user_id
 
