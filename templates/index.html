@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}" />
+    <title>{{ title }}</title>
 </head>
 <body>
-    <h1>{{ title }}</h1>
-    <nav>
-        <a href="{{ url_for('.services') }}">Services</a>
-        <a href="{{ url_for('.about') }}">About</a>
-    </nav>
+    {% autoescape false %}
+        {{ title }}
+    {% endautoescape %}
+    {{ body|md|safe }}
+    {{ read_md('http_methods.md')|md|safe }}
 </body>
 </html>

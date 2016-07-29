@@ -16,9 +16,9 @@ manager = Manager(app)
 
 @app.route('/')
 def index():
-    response = make_response(render_template('index.html',title='Welcome'))
-    response.set_cookie('username','')
-    return response
+    return render_template('index.html',
+                           title='<h1>Hello,world!</h1>',
+                           body='## Header2')
 
 @app.route('/services')
 def services():
@@ -60,13 +60,27 @@ def upload():
 def page_not_found(error):
     return render_template('404.html'), 404
 
-@manager.command
-def dev():
-    from livereload import Server
-    live_server = Server(app.wsgi_app)
-    live_server.watch('**/*.*')
-    live_server.serve(open_url=True)
+# @manager.command
+# def dev():
+#     from livereload import Server
+#     live_server = Server(app.wsgi_app)
+#     live_server.watch('**/*.*')
+#     live_server.serve(open_url=True)
+
+@app.template_filter('md')
+def markdown_to_html(txt):
+    from markdown import markdown
+    return markdown(txt)
+
+def read_md(filename):
+    with open(filename) as md_file:
+        content = reduce(lambda x, y: x + y,md_file.readlines())
+        return content.decode('utf-8')
+
+@app.context_processor
+def inject_methods():
+    return dict(read_md=read_md)
 
 if __name__ == '__main__':
-    # app.run(debug=True)
-    manager.run()
+    app.run(debug=True)
+    # manager.run()
