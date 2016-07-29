@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask,render_template,request,redirect,url_for,make_response,abort
 from werkzeug.routing import BaseConverter
 from werkzeug.utils import secure_filename
 from os import path
@@ -12,8 +12,10 @@ app = Flask(__name__)
 app.url_map.converters['regex'] = RegexConverter
 
 @app.route('/')
-def hello_world():
-    return render_template('index.html',title='Welcome')
+def index():
+    response = make_response(render_template('index.html',title='Welcome'))
+    response.set_cookie('username','')
+    return response
 
 @app.route('/services')
 def services():
@@ -50,6 +52,10 @@ def upload():
         f.save(upload_path + secure_filename(f.filename))
         return redirect(url_for('upload'))
     return render_template('upload.html')
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
