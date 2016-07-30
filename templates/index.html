@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
-{#    {{ title|safe }}#}
-{#    {{ body|md|safe }}#}
-{#    {{ read_md('http_methods.md')|md|safe }}#}
+{% extends 'base.html' %}
+{% import '_macros.html' as ui %}
 
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
 {% set links=[
     ('Home', url_for('.index')),
     ('About', url_for('.about')),
@@ -26,6 +20,14 @@
             {{ label }}</a>
     {% endfor %}
 </nav>
+    <h1>{{ self.title() }}</h1>
 
-</body>
-</html>
+    {{ ui.input('username') }}
+    {{ ui.input('password',type='password') }}
+    
+{% endblock content %}
+
+{% block footer %}
+    <hr>
+    {{ super() }}
+{% endblock %}

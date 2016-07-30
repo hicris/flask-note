@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        {% include ['includes/_head.html','includes/_metas.html '] %}
+    {% endblock %}
+</head>
+<body>
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+    <div>{% block content %}{% endblock %}</div>
+
+{#    {% for item in items %}#}
+{#        <li>{% block loop_item scoped %}{{ item }}{% endblock} %}</li>#}
+{#    {% endfor %}#}
+
+    <footer>
+        {% block footer %}
+            Copyright 2016 by <a href="www.hicris.com">Cris</a>
+        {% endblock %}
+    </footer>
+</body>
+</html>
