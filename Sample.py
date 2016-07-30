@@ -17,8 +17,7 @@ manager = Manager(app)
 @app.route('/')
 def index():
     return render_template('index.html',
-                           title='<h1>Hello,world!</h1>',
-                           body='## Header2')
+                           title='<h1>Hello,world!</h1>')
 
 @app.route('/services')
 def services():
@@ -33,7 +32,6 @@ def user(user_id):
     return 'User %s' % user_id
 
 @app.route('/projects/')
-@app.route('/our-works/')
 def projects():
     return 'The project page'
 
@@ -59,6 +57,10 @@ def upload():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+
+@app.template_test('current_link')
+def is_current_link(link):
+    return link == request.path
 
 # @manager.command
 # def dev():

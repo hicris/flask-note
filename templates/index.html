@@ -5,10 +5,27 @@
     <title>{{ title }}</title>
 </head>
 <body>
-    {% autoescape false %}
-        {{ title }}
-    {% endautoescape %}
-    {{ body|md|safe }}
-    {{ read_md('http_methods.md')|md|safe }}
+{#    {{ title|safe }}#}
+{#    {{ body|md|safe }}#}
+{#    {{ read_md('http_methods.md')|md|safe }}#}
+
+{% set links=[
+    ('Home', url_for('.index')),
+    ('About', url_for('.about')),
+    ('Services', url_for('.services')),
+    ('Projects', url_for('.projects')),
+] %}
+
+<nav>
+    {% for label,href in links %}
+        {% if not loop.first %} | {% endif %}
+            <a href="{% if href is current_link %}
+            {% else %}
+            {{ href }}
+            {% endif %}">
+            {{ label }}</a>
+    {% endfor %}
+</nav>
+
 </body>
 </html>
