@@ -1,24 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% block head %}
-        {% include ['includes/_head.html','includes/_metas.html '] %}
-    {% endblock %}
-</head>
-<body>
-    <header>
-        {% block header %}{% endblock %}
-    </header>
-    <div>{% block content %}{% endblock %}</div>
+{% extends 'bootstrap/base.html' %}
+
+{% block head %}
+    {{ super() }}
+    {% include ['includes/_head.html','includes/_metas.html '] %}
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet"
+          href="https://bootswatch.com/cerulean/bootstrap.min.css" >
+{% endblock %}
+
+{% block navbar %}
+    {{ nav.top.render() }}
+{% endblock %}
+
+{% block content %}
+    <header>{% block header %}{% endblock %}</header>
+{% endblock %}
+
+{% block footer %}
+    <footer>
+            Copyright 2016 by <a href="www.hicris.com">Cris</a>
+    </footer>
+{% endblock %}
 
 {#    {% for item in items %}#}
 {#        <li>{% block loop_item scoped %}{{ item }}{% endblock} %}</li>#}
 {#    {% endfor %}#}
-
-    <footer>
-        {% block footer %}
-            Copyright 2016 by <a href="www.hicris.com">Cris</a>
-        {% endblock %}
-    </footer>
-</body>
-</html>
